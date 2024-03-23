@@ -7,3 +7,7 @@ To learn more about Quarto books visit <https://quarto.org/docs/books>.
 ```{r}
 1 + 1
 ```
+
+You can download this file [this notebook](https://github.com/AntonUrfels/data-works/blob/main/intro.qmd)
+
+<a href="https://github.com/AntonUrfels/data-works/blob/main/intro.qmd" title="Download" download>Download</a>

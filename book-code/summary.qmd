@@ -1,0 +1,33 @@
+# Folder structure
+
+Folder structure is crucial for data management as it enables us to engage with our datasets in a systematic manner without getting lost or cluttered. In each project, we should have a simple set up. In principle we only need two core folder (data and code). But a few additional folders help to get further organized.
+
+An sample project folder:
+
+-data\
+-code\
+-outputs\
+-figures\
+-docs
+
+## Core folders
+
+-   **data** ---\> This folder contains all raw data. After copying data into this folder it will not be touched.
+
+-   **code** ---\> This folder contains all the code that we use to clean, organize, and analyse our data. Try to use 000 numbering to indicate in which sequence the script need to be run. You can e.g. start with a file called *000-explore.R* to play around. And once you have a good overview of your dataset you can use files like *001-read-data.R* and *002-clean-fertilizer.R* and *003-clean-yield.R* and so on.
+
+Reproducible research principles dictate that these two folder are key. Any of our outputs **MUST** be producible by adding the correct raw dataset in the data folder and then running the scripts in the code folder.
+
+## Auxiliary folders
+
+For convenience, we typically add additional folder that include:
+
+-   **outputs** ---\> This folder contains temporary or intermediate datasets that we save during our cleaning or analytics process. For example, if we want to share a cleaned dataset. Or if we want to save the outputs of an analysis that takes a long time - so that we can re-use in our next session without re-running the analyses.
+
+-   **figures** ---\> This folder contains figures that we generate during our cleaning or analytics workflows. It is possible to use R to generate figures in RStudio and copy-paste them. But this is not reproducible - and saving figures through code is the preferred option.
+
+-   **docs** ---\> This folder contains e.g. MS office documents such as manuscripts, reports, or presentations. It is often handy to have these in the same folder and then add graphics from the figures folder as we write or prepare presentations.
+
+You may wish to use other folder at wish - but try to keep it simple so that any other user can easily understand your folder structure.
+
+As we develop project, it is often useful to re-organize and streamline our files periodically. When, for instance we are ready with a first draft, it can be useful to run all code from the beginning and see if the code is still working and generating the right figures and output datasets.

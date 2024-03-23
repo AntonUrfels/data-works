@@ -1,0 +1,13 @@
+# Introduction
+
+This book provides an overview of data management practices and resources for research and development for agriculture and food systems.
+
+We also provide R code for standard workflows, ontologies, and conventions. This work is being developed by IRRI/CGIAR and openly available. IRRI/CGIAR follows an open data policy and this website is licensed under MIT License which enables anyone to re-use this work with adequate accreditation and acknowledgement.
+
+In case of question - please get in touch with Anton Urfels ([a.urfels\@irri.org](mailto:a.urfels@irri.org)) and we will be happy to support you.
+
+Let's run a short script to get started:
+
+```{r}
+1 + 1
+```
