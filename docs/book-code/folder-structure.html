@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Management - 1&nbsp; Introduction</title>
+<title>Data Management - 2&nbsp; Folder structure</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -64,8 +30,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../book-code/folder-structure.html" rel="next">
-<link href="../index.html" rel="prev">
+<link href="../book-code/references.html" rel="next">
+<link href="../book-code/intro.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -108,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book-code/intro.html">Introduction</a></li><li class="breadcrumb-item"><a href="../book-code/intro.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../book-code/folder-structure.html">Data management workflow</a></li><li class="breadcrumb-item"><a href="../book-code/folder-structure.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Folder structure</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -153,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../book-code/intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="../book-code/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
@@ -170,7 +136,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../book-code/folder-structure.html" class="sidebar-item-text sidebar-link">
+  <a href="../book-code/folder-structure.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Folder structure</span></span></a>
   </div>
 </li>
@@ -188,14 +154,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#core-folders" id="toc-core-folders" class="nav-link active" data-scroll-target="#core-folders"><span class="header-section-number">2.1</span> Core folders</a></li>
+  <li><a href="#auxiliary-folders" id="toc-auxiliary-folders" class="nav-link" data-scroll-target="#auxiliary-folders"><span class="header-section-number">2.2</span> Auxiliary folders</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Folder structure</span></h1>
 </div>
 
 
@@ -210,18 +183,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>This book provides an overview of data management practices and resources for research and development for agriculture and food systems.</p>
-<p>We also provide R code for standard workflows, ontologies, and conventions. This work is being developed by IRRI/CGIAR and openly available. IRRI/CGIAR follows an open data policy and this website is licensed under MIT License which enables anyone to re-use this work with adequate accreditation and acknowledgement.</p>
-<p>In case of question - please get in touch with Anton Urfels (<a href="mailto:a.urfels@irri.org">a.urfels@irri.org</a>) and we will be happy to support you.</p>
-<p>Let’s run a short script to get started:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+<p>Folder structure is crucial for data management as it enables us to engage with our datasets in a systematic manner without getting lost or cluttered. In each project, we should have a simple set up. In principle we only need two core folder (data and code). But a few additional folders help to get further organized.</p>
+<p>An sample project folder:</p>
+<p>-data<br>
+-code<br>
+-outputs<br>
+-figures<br>
+-docs</p>
+<section id="core-folders" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="core-folders"><span class="header-section-number">2.1</span> Core folders</h2>
+<ul>
+<li><p><strong>data</strong> —&gt; This folder contains all raw data. After copying data into this folder it will not be touched.</p></li>
+<li><p><strong>code</strong> —&gt; This folder contains all the code that we use to clean, organize, and analyse our data. Try to use 000 numbering to indicate in which sequence the script need to be run. You can e.g.&nbsp;start with a file called <em>000-explore.R</em> to play around. And once you have a good overview of your dataset you can use files like <em>001-read-data.R</em> and <em>002-clean-fertilizer.R</em> and <em>003-clean-yield.R</em> and so on.</p></li>
+</ul>
+<p>Reproducible research principles dictate that these two folder are key. Any of our outputs <strong>MUST</strong> be producible by adding the correct raw dataset in the data folder and then running the scripts in the code folder.</p>
+</section>
+<section id="auxiliary-folders" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="auxiliary-folders"><span class="header-section-number">2.2</span> Auxiliary folders</h2>
+<p>For convenience, we typically add additional folder that include:</p>
+<ul>
+<li><p><strong>outputs</strong> —&gt; This folder contains temporary or intermediate datasets that we save during our cleaning or analytics process. For example, if we want to share a cleaned dataset. Or if we want to save the outputs of an analysis that takes a long time - so that we can re-use in our next session without re-running the analyses.</p></li>
+<li><p><strong>figures</strong> —&gt; This folder contains figures that we generate during our cleaning or analytics workflows. It is possible to use R to generate figures in RStudio and copy-paste them. But this is not reproducible - and saving figures through code is the preferred option.</p></li>
+<li><p><strong>docs</strong> —&gt; This folder contains e.g.&nbsp;MS office documents such as manuscripts, reports, or presentations. It is often handy to have these in the same folder and then add graphics from the figures folder as we write or prepare presentations.</p></li>
+</ul>
+<p>You may wish to use other folder at wish - but try to keep it simple so that any other user can easily understand your folder structure.</p>
+<p>As we develop project, it is often useful to re-organize and streamline our files periodically. When, for instance we are ready with a first draft, it can be useful to run all code from the beginning and see if the code is still working and generating the right figures and output datasets.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -459,13 +448,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="../book-code/intro.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../book-code/folder-structure.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Folder structure</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../book-code/references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

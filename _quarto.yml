@@ -16,7 +16,7 @@ book:
     - book-code/intro.qmd
   - part: "Data management workflow"
     chapters:
-    - book-code/summary.qmd
+    - book-code/folder-structure.qmd
   - book-code/references.qmd
 
 bibliography: book-code/references.bib
