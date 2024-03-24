@@ -33,5 +33,166 @@
     "title": "3  Introduction",
     "section": "",
     "text": "This is the course website for course held at IRRI HQ from 25-28 of March 2024.\n\nDay 1 - Overview and refresher + data cleaning\nDay 2 - Descriptive statistics and maps\nDay 3 - Advanced statistics and automatic reporting\n\nAll the materials are inside the training-materials folder in the github repo."
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#the-destination",
+    "href": "training-materials/presentation/intro.html#the-destination",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.1 The destination",
+    "text": "4.1 The destination\n\n\n\nDigital twins of our agro-ecological landscapes.\nReduce the time we spend cleaning data.\nLeverage latest advances in ML and data science."
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#digital-landscapes-for-sustainable-agri-food-systems",
+    "href": "training-materials/presentation/intro.html#digital-landscapes-for-sustainable-agri-food-systems",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.2 Digital landscapes for sustainable agri-food systems",
+    "text": "4.2 Digital landscapes for sustainable agri-food systems\n\nWe need to ensure our foundations are solid\nData is the backbone of these developments\nBut data without knowledge will not suffice\nWe are well placed to work at this interface"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#lets-get-started",
+    "href": "training-materials/presentation/intro.html#lets-get-started",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.3 Let’s get started",
+    "text": "4.3 Let’s get started\n\nThe target for this week: Sample report and workflow\nOur first line of code:\n\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#housekeeping",
+    "href": "training-materials/presentation/intro.html#housekeeping",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.4 Housekeeping",
+    "text": "4.4 Housekeeping\n\n\nIn the mornings we will have presentations + working with our examples.\nIn the afternoons, everyone will work on their own code.\nOur focus will be on supporting in-person participants.\nFor online participants - please use the Google Space to discuss and help each other.\nIf you have questions in the room - please ask anytime.\nYour feedback and suggestion are dearly needed."
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#the-workflow",
+    "href": "training-materials/presentation/intro.html#the-workflow",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.5 The workflow",
+    "text": "4.5 The workflow\n\nOnce we completed the workflow we can automate\nWe can recycle our scripts for cleaning, plotting, and communicating"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#step-1---cleaning",
+    "href": "training-materials/presentation/intro.html#step-1---cleaning",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.6 Step 1 - Cleaning",
+    "text": "4.6 Step 1 - Cleaning\n\nTime spend here - saves a lot of time later"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#step-2---explore",
+    "href": "training-materials/presentation/intro.html#step-2---explore",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.7 Step 2 - Explore",
+    "text": "4.7 Step 2 - Explore\n\nUnderstand distributions of key variables\nCheck for spatial variability\nRun initial checks on key relationships"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#step-3---advanced-analytics",
+    "href": "training-materials/presentation/intro.html#step-3---advanced-analytics",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.8 Step 3 - Advanced analytics",
+    "text": "4.8 Step 3 - Advanced analytics\n\nBuild specific models - e.g. yield prediction\nInterrogate relationship inside the models\nRun scenarios - e.g. what happens to yield if we improve planting dates?\nFree textbook and online course"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#step-4---communicate",
+    "href": "training-materials/presentation/intro.html#step-4---communicate",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.9 Step 4 - Communicate",
+    "text": "4.9 Step 4 - Communicate\n\nRStudio provides several handy functions for this.\nQuarto documents are the current standard. You can generate websites, html documents, word reports and web applications.\nThis presentation was done in a Quarto document in RStudio."
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#questions",
+    "href": "training-materials/presentation/intro.html#questions",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.10 Questions?",
+    "text": "4.10 Questions?"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#some-basic-r-reminders",
+    "href": "training-materials/presentation/intro.html#some-basic-r-reminders",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.11 Some basic R reminders",
+    "text": "4.11 Some basic R reminders\n\n“Es gibt nicht praktischerisch als eine gute Theorie”\n“There is nothing more practical than a good theory”\nSource: German intellectual tradition, possibly Kant, Helmholtz."
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#this-is-all-you-need-really",
+    "href": "training-materials/presentation/intro.html#this-is-all-you-need-really",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.12 This is all you need, really",
+    "text": "4.12 This is all you need, really\n\nAtomic vectors (of different classes) - these hold values\nAnd functions - ‘word’ with (brackets) that run things.\nUse c() to create vectors\nSingle numbers are vectors of length 1\nVectors can only have the same class - if mixed, they are converted to common class. Normally character.\nR objects, unquoted names that we can assing things to\nAssignment happens with: &lt;-"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#in-action",
+    "href": "training-materials/presentation/intro.html#in-action",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.13 In action",
+    "text": "4.13 In action\n\nis.vector(1) # check whether this is a vector\n\n[1] TRUE\n\nclass(1) # check what class this vector is\n\n[1] \"numeric\"\n\nis.vector(\"Hello IRRI\")\n\n[1] TRUE\n\nclass(\"Hello IRRI\")\n\n[1] \"character\"\n\nis.vector(c(1,2))\n\n[1] TRUE\n\nc(\"HELLO IRRI\", 1,2)\n\n[1] \"HELLO IRRI\" \"1\"          \"2\"         \n\nclass(c(\"HELLO IRRI\", 1,2))\n\n[1] \"character\"\n\nx &lt;- c(1,2,3) \nprint(x)\n\n[1] 1 2 3"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#everything-else",
+    "href": "training-materials/presentation/intro.html#everything-else",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.14 Everything else",
+    "text": "4.14 Everything else\n\nFor our purposes, everything else are basically just construction of different vectors of varying levels of complexity.\nWe can also use attributes. These are things like the number of dimensions, or the names of columns or rows.\nFor example a data.frame is similar to an excel sheet. It just a collection of vectors (columns) of the same length, with a name for each column."
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#in-action-1",
+    "href": "training-materials/presentation/intro.html#in-action-1",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.15 In action",
+    "text": "4.15 In action\n\nfarmer_name &lt;- c(\"Hari\",\"Virender\",\"Anton\")\nyield_tha &lt;- c(10.3,5.3,2.3)\nn_rate &lt;- c(30,50,100)\n\nsurvey &lt;- data.frame( #here we ask to create a data frame. And assign it to survey\n  name = farmer_name,\n  yield = yield_tha, # Here we create a column name \"yield\" and request yield_tha as values\n  n = n_rate # the same for n_rate\n)\n\nsurvey #ask to print the object survey\n\n      name yield   n\n1     Hari  10.3  30\n2 Virender   5.3  50\n3    Anton   2.3 100\n\ndim(survey)\n\n[1] 3 3\n\ncolnames(survey)\n\n[1] \"name\"  \"yield\" \"n\""
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#subsetting",
+    "href": "training-materials/presentation/intro.html#subsetting",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.16 Subsetting",
+    "text": "4.16 Subsetting\n\nWe can use the [index_number] after an object to subset by stating the numbers that we want.\nAnd index in R runs from 1 to n.\nIn data.frames we have two dimensions so we can use [row_index,col_index]. Blank space in one dimension means select all."
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#in-action-2",
+    "href": "training-materials/presentation/intro.html#in-action-2",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.17 In action",
+    "text": "4.17 In action\n\nfarmer_name[1] # get the first farmner name \n\n[1] \"Hari\"\n\nfarmer_name[2] # get the second farmer name\n\n[1] \"Virender\"\n\nfarmer_name[c(1,2)] # get both names\n\n[1] \"Hari\"     \"Virender\"\n\nsurvey[1,1] #subset the first entry in the first column\n\n[1] \"Hari\"\n\nsurvey[1,] #extract the entire first row  \n\n  name yield  n\n1 Hari  10.3 30\n\nsurvey[,3] # extract the entire last column\n\n[1]  30  50 100\n\nsurvey[,\"yield\"] #extract the column with the name \"yield\"\n\n[1] 10.3  5.3  2.3"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#another-way-for-accessing-data-frame-columns",
+    "href": "training-materials/presentation/intro.html#another-way-for-accessing-data-frame-columns",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.18 Another way for accessing data frame columns",
+    "text": "4.18 Another way for accessing data frame columns\n\nwe can use the dollar sign ($) with the name. This is easier to read.\n\n\nsurvey$name #get the names column\n\n[1] \"Hari\"     \"Virender\" \"Anton\"   \n\nsurvey$n_productivity &lt;- survey$yield / survey$n # calculate the n producitivty\n#and assign to new column with name n_productivity\n\nsurvey\n\n      name yield   n n_productivity\n1     Hari  10.3  30      0.3433333\n2 Virender   5.3  50      0.1060000\n3    Anton   2.3 100      0.0230000"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#plotting",
+    "href": "training-materials/presentation/intro.html#plotting",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.19 Plotting",
+    "text": "4.19 Plotting\n\nwe can use basic plotting and ggplot\nfor ggplot we need to load the ggplot2 library.\nthe ‘~’ means ‘a function of’\n\n\nplot(survey$yield~survey$n,ylab = \"Yield\",xlab=\"N rate\")"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#using-ggplot",
+    "href": "training-materials/presentation/intro.html#using-ggplot",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.20 using ggplot",
+    "text": "4.20 using ggplot\n\nlibrary(ggplot2)\n\nggplot(data = survey)+ #start a ggplot and use survey for data input\n  geom_point(aes(x=n, y=yield,color=name))+ #define aes(thetics), x axis, axis, color\n  theme_classic()+ #use classic theme for cleaner plot\n  scale_x_continuous(name = \"N rate\") #adjust the x axis. Name it N rate."
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#run-a-model",
+    "href": "training-materials/presentation/intro.html#run-a-model",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.21 Run a model",
+    "text": "4.21 Run a model\n\nrun linear regression. Assign results to fit\n\n\nfit &lt;- lm(data = survey, formula = yield~n)\nfit\n\n\nCall:\nlm(formula = yield ~ n, data = survey)\n\nCoefficients:\n(Intercept)            n  \n    12.1974      -0.1038"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#when-in-doubt-use-help-manuals---then-google",
+    "href": "training-materials/presentation/intro.html#when-in-doubt-use-help-manuals---then-google",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.22 When in doubt, use help manuals - then google",
+    "text": "4.22 When in doubt, use help manuals - then google\n\ncan use ? to get the help page of the function.\noften things can be clarified by reading these carefully.\nGoogling can take quite some time - if you don’t find the solution to your problem after 10min. Just send us a quick message.\n\n\n?mean"
+  },
+  {
+    "objectID": "training-materials/presentation/intro.html#questions-1",
+    "href": "training-materials/presentation/intro.html#questions-1",
+    "title": "4  Day 1 - R for sustainable agriculture",
+    "section": "4.23 Questions?",
+    "text": "4.23 Questions?\nOff to the real fun! And using your own examples.\nYou can download all of the course materials incl. this deck from this github repo: https://github.com/AntonUrfels/data-works. You can also look at them at the link of the corresponding website https://antonurfels.github.io/data-works/."
   }
 ]

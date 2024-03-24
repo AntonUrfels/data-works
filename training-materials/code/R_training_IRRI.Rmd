@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#setting the working directory
+# setting the working directory
 
 ```{r}
 getwd()
@@ -357,6 +357,6 @@ merged_data$cropResiduePcnt <- as.numeric(merged_data$cropResiduePcnt)
 merged_data$residu_retain <- ifelse(merged_data$cropResiduePcnt == 0, "No", "Yes")
 
 
-table(data$prevCrop)
-data$prevCrop    <- ifelse(data$prevCrop == "Wheat" | data$prevCrop == "Fallow", data$prevCrop, "Other")
+#table(data$prevCrop)
+#data$prevCrop    <- ifelse(data$prevCrop == "Wheat" | data$prevCrop == "Fallow", data$prevCrop, "Other")
 ```
