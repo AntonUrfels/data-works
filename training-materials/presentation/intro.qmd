@@ -102,9 +102,12 @@ include-in-header:
 
 ## Step 4 - Communicate
 
+::: r-fit-text
 -   RStudio provides several handy functions for this.
 -   Quarto documents are the current standard. You can generate websites, html documents, word reports and web applications.
 -   This presentation was done in a Quarto document in RStudio.
+:::
+![](comms.jpeg){width=800}
 
 ## Questions?
 
@@ -116,7 +119,7 @@ include-in-header:
 
 ![](kant.jpeg){width="400"}
 
-## This is all you need, really
+## This is all you need, really:
 
 -   Atomic vectors (of different classes) - these hold values
 -   And functions - 'word' with (brackets) that run things.
@@ -169,6 +172,12 @@ survey #ask to print the object survey
 dim(survey)
 colnames(survey)
 ```
+
+## Just another meme, almost there
+
+![](almost-meme.jpeg){width=600}
+
+
 
 ## Subsetting
 
@@ -243,8 +252,23 @@ fit
 ?mean
 ```
 
+## Today's goal: A clean dataset
+
+::: r-fit-text
+-   For survey data in agronomy it should normally be a plot for a specific crop and season. In many cases, our surveys only collect data of one plot for one season and thus crop per household. In that case - each household is a row.
+
+-   Also, we want to have interpretable variable names - as much as possible. This helps in analysis later on to keep track of what we are doing.
+::: 
+
+![](tidy-1.png){width=800}
+
 ## Questions?
 
+::: r-fit-text
 Off to the real fun! And using your own examples.
 
 You can download all of the course materials incl. this deck from this github repo: <https://github.com/AntonUrfels/data-works>. You can also look at them at the link of the corresponding website <https://antonurfels.github.io/data-works/>.
+:::
+
+![](monkey.jpeg){width=500}
+

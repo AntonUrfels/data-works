@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# setting the working directory
+# Setting the working directory
 
 ```{r}
 getwd()
@@ -18,37 +18,43 @@ getwd()
 library(readxl)
 ```
 
-#Reading the data
+# Reading the data
 
 ```{r}
-data_most <- read.csv("../data/CSISA_IND_LDS_Rice_2017_Data.csv")
+
+survey <- read.csv("../data/CSISA_IND_LDS_Rice_2017_Data.csv")
 #Import using GUI. 
 
-data = read.csv("../data/Market_data.csv")
-data = read.csv("../data/Market_data.csv",skip = 1)
+survey_market = read.csv("../data/Market_data.csv")
+survey_market = read.csv("../data/Market_data.csv",skip = 1)
 ```
 
-#Remove duplicated
+# Remove duplicate rows
 
 ```{r}
-length(unique(data_most$meta.instanceID))
-length(unique(data$meta.instanceID))
+#calculate number of rows from each data frame
+nrow(survey)
+nrow(survey_market)
+
+#calculate number of UNIQUE IDs
+length(unique(survey_market$meta.instanceID))
+length(unique(survey$meta.instanceID))
 
 library(tidyverse)
 library(dplyr)
-dmost <- data_most %>% distinct(meta.instanceID, .keep_all = TRUE)
-dmarket <- data %>% distinct(meta.instanceID, .keep_all = TRUE)
+dmost <- survey %>% distinct(meta.instanceID, .keep_all = TRUE)
+dmarket <- survey_market %>% distinct(meta.instanceID, .keep_all = TRUE)
 ### Note distinct comes from dplyr package, there are other functions which can do the same thing. 
 ```
 
-#Lets merge both data
+# Lets merge both data frames
 
 ```{r}
 merged_data <- merge(dmost, dmarket, by.x = "meta.instanceID", by.y = "meta.instanceID")
-names(merged_data)
+head(merged_data)
 ```
 
-#Lets have simple name
+# Lets have simple variable names
 
 ```{r}
 #Rename a single column 
