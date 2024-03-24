@@ -4,7 +4,7 @@ project:
  
 book:
   title: "Data Management"
-  author: "Anton Urfels"
+  author: "Anton Urfels; Hari S. Nayak"
   date: "3/22/2024"
   sidebar:
     logo: book-code/CGIAR-IRRI.png
