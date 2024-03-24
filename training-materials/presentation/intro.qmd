@@ -1,0 +1,248 @@
+---
+title: "R for sustainable agriculute"
+subtitle: "Reproducible research and digital landscapes"
+author: "Anton Urfels"
+date: March 25, 2024
+institute: "International Rice Research Institute (IRRI)"
+logo: "irri.png"
+execute:
+  echo: true
+format: 
+  revealjs: 
+    preview-links: true
+    fig-width: 5
+    fig-height: 3
+include-in-header:
+  - text: |
+      <style>
+      #title-slide .title {
+        font-size: 1.5em;
+      }
+      </style>
+---
+
+## The destination
+
+::: columns
+::: {.column width="40%"}
+-   Digital twins of our agro-ecological landscapes.
+-   Reduce the time we spend cleaning data.
+-   Leverage latest advances in ML and data science.
+:::
+
+::: {.column width="60%"}
+![](digital_twins.jpeg)
+:::
+:::
+
+## Digital landscapes for sustainable agri-food systems
+
+-   We need to ensure our foundations are **solid**
+
+-   Data is the backbone of these developments
+
+-   But data without knowledge will not suffice
+
+-   We are well placed to work at this interface
+
+## Let's get started
+
+-   The target for this week: [Sample report and workflow](https://systems-agronomy.github.io/lcas/toolbox/show_report){target="_blank"}
+
+-   Our first line of code:
+
+```{r echo=T,}
+
+1 + 1
+
+```
+
+## Housekeeping
+
+::: {.r-fit-text}
+1.  In the mornings we will have presentations + working with our examples.
+2.  In the afternoons, everyone will work on their own code.
+3.  Our focus will be on supporting in-person participants.
+4.  For online participants - please use the Google Space to discuss and help each other.
+5.  If you have questions in the room - please ask anytime.
+6.  Your feedback and suggestion are dearly needed.
+:::
+
+![](housekeep.jpg){fig-align="center" width="3.11in"}
+
+## The workflow
+
+-   Once we completed the workflow we can automate
+-   We can recycle our scripts for cleaning, plotting, and communicating
+
+![](workflow.png){width="200"}
+
+## Step 1 - Cleaning
+
+-   Time spend here - saves a lot of time later
+
+![](meme1.jpeg){width="500"}
+
+## Step 2 - Explore
+
+-   Understand distributions of key variables
+-   Check for spatial variability
+-   Run initial checks on key relationships
+
+![](explore.jpeg){width="300"}
+
+## Step 3 - Advanced analytics
+
+-   Build specific models - e.g. yield prediction
+-   Interrogate relationship inside the models
+-   Run scenarios - e.g. what happens to yield if we improve planting dates?
+-   [Free textbook and online course](https://www.statlearning.com/online-courses)
+
+![](isl.png){width="400"}
+
+## Step 4 - Communicate
+
+-   RStudio provides several handy functions for this.
+-   Quarto documents are the current standard. You can generate websites, html documents, word reports and web applications.
+-   This presentation was done in a Quarto document in RStudio.
+
+## Questions?
+
+## Some basic R reminders
+
+-   "Es gibt nicht praktischerisch als eine gute Theorie"
+-   "There is nothing more practical than a good theory"
+-   Source: German intellectual tradition, possibly Kant, Helmholtz.
+
+![](kant.jpeg){width="400"}
+
+## This is all you need, really
+
+-   Atomic vectors (of different classes) - these hold values
+-   And functions - 'word' with (brackets) that run things.
+-   Use c() to create vectors
+-   Single numbers are vectors of length 1
+-   Vectors can only have the same class - if mixed, they are converted to common class. Normally character.
+-   R objects, unquoted names that we can assing things to
+-   Assignment happens with: \<-
+
+## In action
+
+```{r}
+is.vector(1) # check whether this is a vector
+class(1) # check what class this vector is
+is.vector("Hello IRRI")
+class("Hello IRRI")
+is.vector(c(1,2))
+c("HELLO IRRI", 1,2)
+class(c("HELLO IRRI", 1,2))
+
+x <- c(1,2,3) 
+print(x)
+
+```
+
+## Everything else
+
+-   For our purposes, everything else are basically just construction of different vectors of varying levels of complexity.
+
+-   We can also use attributes. These are things like the number of dimensions, or the names of columns or rows.
+
+-   For example a data.frame is similar to an excel sheet. It just a collection of vectors (columns) of the same length, with a name for each column.
+
+## In action
+
+```{r}
+
+farmer_name <- c("Hari","Virender","Anton")
+yield_tha <- c(10.3,5.3,2.3)
+n_rate <- c(30,50,100)
+
+survey <- data.frame( #here we ask to create a data frame. And assign it to survey
+  name = farmer_name,
+  yield = yield_tha, # Here we create a column name "yield" and request yield_tha as values
+  n = n_rate # the same for n_rate
+)
+
+survey #ask to print the object survey
+
+dim(survey)
+colnames(survey)
+```
+
+## Subsetting
+
+-   We can use the **\[**index_number**\]** after an object to subset by stating the numbers that we want.
+-   And index in R runs from 1 to n.
+-   In data.frames we have two dimensions so we can use **\[**row_index,col_index**\]**. Blank space in one dimension means select all.
+
+## In action
+
+```{r}
+farmer_name[1] # get the first farmner name 
+farmer_name[2] # get the second farmer name
+farmer_name[c(1,2)] # get both names
+
+survey[1,1] #subset the first entry in the first column
+survey[1,] #extract the entire first row  
+survey[,3] # extract the entire last column
+survey[,"yield"] #extract the column with the name "yield"
+```
+
+## Another way for accessing data frame columns
+
+-   we can use the dollar sign (\$) with the name. This is easier to read.
+
+```{r}
+survey$name #get the names column
+
+survey$n_productivity <- survey$yield / survey$n # calculate the n producitivty
+#and assign to new column with name n_productivity
+
+survey
+```
+
+## Plotting
+
+-   we can use basic plotting and ggplot
+-   for ggplot we need to load the ggplot2 library.
+-   the '\~' means 'a function of'
+
+```{r}
+plot(survey$yield~survey$n,ylab = "Yield",xlab="N rate")
+```
+
+## using ggplot
+
+```{r}
+library(ggplot2)
+
+ggplot(data = survey)+ #start a ggplot and use survey for data input
+  geom_point(aes(x=n, y=yield,color=name))+ #define aes(thetics), x axis, axis, color
+  theme_classic()+ #use classic theme for cleaner plot
+  scale_x_continuous(name = "N rate") #adjust the x axis. Name it N rate.
+```
+
+## Run a model
+
+-   run linear regression. Assign results to fit
+
+```{r}
+
+fit <- lm(data = survey, formula = yield~n)
+fit
+```
+
+## When in doubt, use help manuals - then google
+
+-   can use ? to get the help page of the function.
+-   often things can be clarified by reading these carefully.
+-   Googling can take quite some time - if you don't find the solution to your problem after 10min. Just send us a quick message.
+
+```{r}
+?mean
+```
+
+## Questions?
+
+Off to the real fun! And using your own examples.

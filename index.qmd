@@ -1,13 +1,3 @@
 # Preface {.unnumbered}
 
-This is a Quarto book.
-
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
-
-```{r}
-1 + 1
-```
-
-You can download this file [this notebook](https://github.com/AntonUrfels/data-works/blob/main/intro.qmd)
-
-<a href="https://github.com/AntonUrfels/data-works/blob/main/intro.qmd" title="Download" download>Download</a>
+This website holds basic information and course materials on data management and analytics from the International Rice Research Institute. This is a work in progress. Any suggestions or questions are highly welcome.
