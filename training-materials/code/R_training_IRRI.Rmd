@@ -21,7 +21,7 @@ library(readxl)
 #Reading the data
 
 ```{r}
-data_most = read.csv("../data/CSISA_IND_LDS_Rice_2017_Data.csv")
+data_most <- read.csv("../data/CSISA_IND_LDS_Rice_2017_Data.csv")
 #Import using GUI. 
 
 data = read.csv("../data/Market_data.csv")
@@ -36,15 +36,15 @@ length(unique(data$meta.instanceID))
 
 library(tidyverse)
 library(dplyr)
-dmost = data_most %>% distinct(meta.instanceID, .keep_all = TRUE)
-dmarket = data %>% distinct(meta.instanceID, .keep_all = TRUE)
+dmost <- data_most %>% distinct(meta.instanceID, .keep_all = TRUE)
+dmarket <- data %>% distinct(meta.instanceID, .keep_all = TRUE)
 ### Note distinct comes from dplyr package, there are other functions which can do the same thing. 
 ```
 
 #Lets merge both data
 
 ```{r}
-merged_data = merge(dmost, dmarket, by.x = "meta.instanceID", by.y = "meta.instanceID")
+merged_data <- merge(dmost, dmarket, by.x = "meta.instanceID", by.y = "meta.instanceID")
 names(merged_data)
 ```
 
@@ -64,7 +64,7 @@ names(merged_data)[names(merged_data) == "C-q305_cropLargestArea"] <- 'cropLarge
 #write.csv(cor_names,"cor_names.csv")
 #write.csv(names(merged_data), "old_names.csv")
 names = read.csv("../data/cor_names.csv")
-names(merged_data) = names$new
+names(merged_data) <- names$new
 
 which(duplicated(names(merged_data)))
 merged_data[,which(duplicated(names(merged_data)))] = NULL
@@ -76,9 +76,9 @@ which(duplicated(names(merged_data)))
 ```{r}
 str(merged_data)
 class(merged_data)
-merged_data$cropSeedAmt = as.numeric(merged_data$cropSeedAmt)
-merged_data$basalDAP    = as.numeric(merged_data$basalDAP)
-merged_data$basalUrea   = as.numeric(merged_data$basalUrea)
+merged_data$cropSeedAmt <- as.numeric(merged_data$cropSeedAmt)
+merged_data$basalDAP    <- as.numeric(merged_data$basalDAP)
+merged_data$basalUrea   <- as.numeric(merged_data$basalUrea)
 merged_data[,c("varName","droughtSeverity")] = sapply(merged_data[,c("varName","droughtSeverity")], as.factor)
 ```
 
@@ -86,18 +86,18 @@ merged_data[,c("varName","droughtSeverity")] = sapply(merged_data[,c("varName","
 
 ```{r}
 table(merged_data$varName)
-var_name = data.frame(table(merged_data$varName))
-var_name = var_name %>% arrange(desc(Freq))
-err_7029 = c("MTU_7029", "Mansuri_MTU7029", "MiniMansuri_MTU7029", "MTU7029", "Golden_MTU7029", "MTU7026")
-err_pooja = c("OtherPooja", "OtherPuja")
-err_sonam = c("Sonam", "Swanam")
+var_name <- data.frame(table(merged_data$varName))
+var_name <- var_name %>% arrange(desc(Freq))
+err_7029 <- c("MTU_7029", "Mansuri_MTU7029", "MiniMansuri_MTU7029", "MTU7029", "Golden_MTU7029", "MTU7026")
+err_pooja <- c("OtherPooja", "OtherPuja")
+err_sonam <- c("Sonam", "Swanam")
 
-merged_data$varName = ifelse(merged_data$varName %in% err_7029, "MTU_7029", merged_data$varName)
-merged_data$varName = ifelse(merged_data$varName %in% err_pooja, "Pooja", merged_data$varName)
-merged_data$varName = ifelse(merged_data$varName %in% err_sonam, "Sonam", merged_data$varName)
+merged_data$varName <- ifelse(merged_data$varName %in% err_7029, "MTU_7029", merged_data$varName)
+merged_data$varName <- ifelse(merged_data$varName %in% err_pooja, "Pooja", merged_data$varName)
+merged_data$varName <- ifelse(merged_data$varName %in% err_sonam, "Sonam", merged_data$varName)
 
-dominant_variety = var_name %>% filter(Freq>30) 
-merged_data$varName = ifelse(merged_data$varName %in% dominant_variety$Var1, merged_data$varName, "Other")
+dominant_variety <- var_name %>% filter(Freq>30) 
+merged_data$varName <- ifelse(merged_data$varName %in% dominant_variety$Var1, merged_data$varName, "Other")
 
 pie(dominant_variety$Freq, labels = dominant_variety$Var1, cex = 0.5)
 
@@ -166,17 +166,17 @@ merged_data <- merged_data %>%
 ```{r}
 table(merged_data$gradeNPK)
 
-err_28_28_0 = c("Other28-28", "Other28-28-0","Other28.28","Other28.28.0","Other28:28:0","Other27-28-0")
+err_28_28_0 <- c("Other28-28", "Other28-28-0","Other28.28","Other28.28.0","Other28:28:0","Other27-28-0")
 
-merged_data$gradeNPK = ifelse(merged_data$gradeNPK %in% err_28_28_0, "28_28_0", merged_data$gradeNPK)
+merged_data$gradeNPK <- ifelse(merged_data$gradeNPK %in% err_28_28_0, "28_28_0", merged_data$gradeNPK)
 
-err_20_20_13 = c("Other20-20--13","Other20-20-13","Other20 - 20 -013")
+err_20_20_13 <- c("Other20-20--13","Other20-20-13","Other20 - 20 -013")
 
-merged_data$gradeNPK = ifelse(merged_data$gradeNPK %in% err_20_20_13, "20_20_13", merged_data$gradeNPK)
+merged_data$gradeNPK <- ifelse(merged_data$gradeNPK %in% err_20_20_13, "20_20_13", merged_data$gradeNPK)
 
-merged_data$gradeNPK = ifelse(merged_data$gradeNPK == "Other18.46" | merged_data$gradeNPK == "Other18 18 46", "18_18_46", merged_data$gradeNPK)
+merged_data$gradeNPK <- ifelse(merged_data$gradeNPK == "Other18.46" | merged_data$gradeNPK == "Other18 18 46", "18_18_46", merged_data$gradeNPK)
 
-merged_data$gradeNPK = ifelse(merged_data$gradeNPK == "Other14_35_14", "14_35_14", merged_data$gradeNPK)
+merged_data$gradeNPK <- ifelse(merged_data$gradeNPK == "Other14_35_14", "14_35_14", merged_data$gradeNPK)
 
 merged_data$gradeNPK = ifelse(merged_data$gradeNPK == "10_26_26" | merged_data$gradeNPK == "12_32_16" | merged_data$gradeNPK == "14_35_14" | merged_data$gradeNPK == "17_17_17"| merged_data$gradeNPK == "18_18_46" | merged_data$gradeNPK == "20_20_13" | merged_data$gradeNPK == "28_28_0", merged_data$gradeNPK, 0)
 ```
@@ -196,7 +196,7 @@ summary(is.na(merged_data$N_grade))
 
 ```{r}
 merged_data$N_grade = coalesce(merged_data$N_grade, 0)
-merged_data = merged_data %>% mutate(N_grade = coalesce(N_grade,0), 
+merged_data <- merged_data %>% mutate(N_grade = coalesce(N_grade,0), 
                                      P_grade = coalesce(P_grade,0),
                                      K_grade = coalesce(K_grade,0))
 
@@ -205,29 +205,54 @@ merged_data = merged_data %>% mutate(N_grade = coalesce(N_grade,0),
 #Calculate N,P,K, rates
 
 ```{r}
-merged_data$total_N = merged_data$basalDAP*0.18 + merged_data$basalNPK*(merged_data$N_grade/100) + merged_data$basalUrea*0.46 + merged_data$`1tdUrea`*0.46 + merged_data$`2tdUrea`*0.46 + merged_data$`3tdUrea`*0.46 + merged_data$`1tdDAP`*0.18 + merged_data$`1tdNPK`*(merged_data$N_grade/100) + merged_data$`2tdDAP`*0.18 + merged_data$`2tdNPK`*(merged_data$N_grade/100) + merged_data$`3tdDAP`*0.18 + merged_data$`3tdNPK`*(merged_data$N_grade/100) 
+merged_data$total_N <- merged_data$basalDAP * 0.18 + merged_data$basalNPK *
+  (merged_data$N_grade / 100) + merged_data$basalUrea * 0.46 + merged_data$`1tdUrea` *
+  0.46 + merged_data$`2tdUrea` * 0.46 + merged_data$`3tdUrea` * 0.46 + merged_data$`1tdDAP` *
+  0.18 + merged_data$`1tdNPK` * (merged_data$N_grade / 100) + merged_data$`2tdDAP` *
+  0.18 + merged_data$`2tdNPK` * (merged_data$N_grade / 100) + merged_data$`3tdDAP` *
+  0.18 + merged_data$`3tdNPK` * (merged_data$N_grade / 100)
 
-merged_data$total_p = merged_data$basalDAP*0.46 + merged_data$basalNPK*(merged_data$P_grade/100) +  merged_data$`1tdDAP` *0.46 + merged_data$`2tdDAP`* 0.46 + merged_data$`3tdDAP` *0.46 + merged_data$`1tdNPK`*(merged_data$P_grade/100) + merged_data$`2tdNPK`*(merged_data$P_grade/100) +  merged_data$basalSSP* 0.145 + merged_data$basalTSP * 0.45 + merged_data$`1tdSSP`*0.145 + merged_data$`2tdSSP`*0.145 + merged_data$`3tdSSP`*0.145 + merged_data$`1tdTSP`*0.45 + merged_data$`2tdTSP`*0.45 
+merged_data$total_p <-
+  merged_data$basalDAP * 0.46 + merged_data$basalNPK * (merged_data$P_grade /
+                                                          100) +  merged_data$`1tdDAP` * 0.46 + merged_data$`2tdDAP` * 0.46 + merged_data$`3tdDAP` *
+  0.46 + merged_data$`1tdNPK` * (merged_data$P_grade / 100) + merged_data$`2tdNPK` *
+  (merged_data$P_grade / 100) +  merged_data$basalSSP * 0.145 + merged_data$basalTSP * 0.45 + merged_data$`1tdSSP` *
+  0.145 + merged_data$`2tdSSP` * 0.145 + merged_data$`3tdSSP` * 0.145 + merged_data$`1tdTSP` *
+  0.45 + merged_data$`2tdTSP` * 0.45
 
-merged_data$total_K = (merged_data$basalMoP+ merged_data$`1tdMoP`+ merged_data$`2tdMoP`+ merged_data$`3tdMoP`)*0.60 + (merged_data$basalNPK  + merged_data$`1tdNPK`+ merged_data$`2tdNPK`+ merged_data$`3tdNPK`)*(merged_data$K_grade/100)
+merged_data$total_K = (
+  merged_data$basalMoP + merged_data$`1tdMoP` + merged_data$`2tdMoP` + merged_data$`3tdMoP`
+) * 0.60 + (
+  merged_data$basalNPK  + merged_data$`1tdNPK` + merged_data$`2tdNPK` + merged_data$`3tdNPK`
+) * (merged_data$K_grade / 100)
 
-merged_data$total_zn = (merged_data$basalZnSO4+ merged_data$`1tdZnSO4`+ merged_data$`2tdZnSO4`+merged_data$`3tdZnSO4`)*0.20
+merged_data$total_zn = (
+  merged_data$basalZnSO4 + merged_data$`1tdZnSO4` + merged_data$`2tdZnSO4` +
+    merged_data$`3tdZnSO4`
+) * 0.20
 
-merged_data$total_B  = (merged_data$basalBoron + merged_data$`1tdBoron`+ merged_data$`3tdBoron`)*0.10
+merged_data$total_B  = (merged_data$basalBoron + merged_data$`1tdBoron` + merged_data$`3tdBoron`) *
+  0.10
 
-merged_data$total_N_ha = merged_data$total_N /merged_data$cropLarestAreaAcre*2.5
+merged_data$total_N_ha = merged_data$total_N / merged_data$cropLarestAreaAcre *
+  2.5
 #merged_data$total_N_ha = ifelse(merged_data$total_N_ha > 550, NA, merged_data$total_N_ha)
-merged_data$total_p_ha = merged_data$total_p / merged_data$cropLarestAreaAcre*2.5
-merged_data$total_K_ha = merged_data$total_K / merged_data$cropLarestAreaAcre*2.5
-merged_data$total_Zn_ha = merged_data$total_zn / merged_data$cropLarestAreaAcre *2.5 
-merged_data$total_B_ha = merged_data$total_B / merged_data$cropLarestAreaAcre *2.5
-merged_data$seed_ha    = merged_data$cropSeedAmt / merged_data$cropLarestAreaAcre *2.5
+merged_data$total_p_ha = merged_data$total_p / merged_data$cropLarestAreaAcre *
+  2.5
+merged_data$total_K_ha = merged_data$total_K / merged_data$cropLarestAreaAcre *
+  2.5
+merged_data$total_Zn_ha = merged_data$total_zn / merged_data$cropLarestAreaAcre *
+  2.5
+merged_data$total_B_ha = merged_data$total_B / merged_data$cropLarestAreaAcre *
+  2.5
+merged_data$seed_ha    = merged_data$cropSeedAmt / merged_data$cropLarestAreaAcre *
+  2.5
 
-#Corecting the N rates per ha. 
+#Corecting the N rates per ha.
 boxplot(merged_data$total_N_ha)
 k = boxplot(merged_data$total_N_ha)
 
-merged_data$total_N_ha = ifelse(merged_data$total_N_ha >300, 200, merged_data$total_N_ha)
+merged_data$total_N_ha = ifelse(merged_data$total_N_ha > 300, 200, merged_data$total_N_ha)
 ```
 
 #More automatic way..
