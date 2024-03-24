@@ -2,8 +2,8 @@
     "sortOrder": [
         {
             "columnIndex": 2,
-            "ascending": true
+            "ascending": false
         }
     ],
-    "path": "~/My Drive/programs/data-works"
+    "path": "~/My Drive/programs/data-works/training-materials/code"
 }

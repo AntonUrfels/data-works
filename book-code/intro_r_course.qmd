@@ -1,0 +1,11 @@
+# **Introduction**
+
+This is the course website for course held at IRRI HQ from 25-28 of March 2024.
+
+-   Day 1 - Overview and refresher + data cleaning
+
+-   Day 2 - Descriptive statistics and maps
+
+-   Day 3 - Advanced statistics and automatic reporting
+
+All the materials are inside the **training-materials** folder in the github repo.

@@ -1,0 +1,337 @@
+---
+title: "1_R_data_cleaning"
+author: "Hari Sankar Nayak"
+date: "2024-03-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#setting the working directory
+
+```{r}
+getwd()
+#setwd("C:/Users/hsn28/Downloads/All_postdoc/Rice_yield_gap_all/dataverse_files_2017r")
+#setwd("C:/Users/hsn28/Desktop/R_training")
+library(readxl)
+```
+
+#Reading the data
+
+```{r}
+data_most = read.csv("../data/CSISA_IND_LDS_Rice_2017_Data.csv")
+#Import using GUI. 
+
+data = read.csv("../data/Market_data.csv")
+data = read.csv("../data/Market_data.csv",skip = 1)
+```
+
+#Remove duplicated
+
+```{r}
+length(unique(data_most$meta.instanceID))
+length(unique(data$meta.instanceID))
+
+library(tidyverse)
+library(dplyr)
+dmost = data_most %>% distinct(meta.instanceID, .keep_all = TRUE)
+dmarket = data %>% distinct(meta.instanceID, .keep_all = TRUE)
+### Note distinct comes from dplyr package, there are other functions which can do the same thing. 
+```
+
+#Lets merge both data
+
+```{r}
+merged_data = merge(dmost, dmarket, by.x = "meta.instanceID", by.y = "meta.instanceID")
+names(merged_data)
+```
+
+#Lets have simple name
+
+```{r}
+#Rename a single column 
+names(merged_data)[names(merged_data) == "C-q305_cropLargestArea"] <- 'cropLargestArea'
+#Rename with consisten Pattern 
+
+#j=strsplit(colnames(merged_data), "_")
+#df <-data.frame(t(as.data.frame.list(j)))
+#names(merged_data) = df$X2
+
+#cor_names = names(merged_data)
+#cor_names
+#write.csv(cor_names,"cor_names.csv")
+#write.csv(names(merged_data), "old_names.csv")
+names = read.csv("../data/cor_names.csv")
+names(merged_data) = names$new
+
+which(duplicated(names(merged_data)))
+merged_data[,which(duplicated(names(merged_data)))] = NULL
+which(duplicated(names(merged_data)))
+```
+
+#Structure of data, coverting to other type
+
+```{r}
+str(merged_data)
+class(merged_data)
+merged_data$cropSeedAmt = as.numeric(merged_data$cropSeedAmt)
+merged_data$basalDAP    = as.numeric(merged_data$basalDAP)
+merged_data$basalUrea   = as.numeric(merged_data$basalUrea)
+merged_data[,c("varName","droughtSeverity")] = sapply(merged_data[,c("varName","droughtSeverity")], as.factor)
+```
+
+#Variety name
+
+```{r}
+table(merged_data$varName)
+var_name = data.frame(table(merged_data$varName))
+var_name = var_name %>% arrange(desc(Freq))
+err_7029 = c("MTU_7029", "Mansuri_MTU7029", "MiniMansuri_MTU7029", "MTU7029", "Golden_MTU7029", "MTU7026")
+err_pooja = c("OtherPooja", "OtherPuja")
+err_sonam = c("Sonam", "Swanam")
+
+merged_data$varName = ifelse(merged_data$varName %in% err_7029, "MTU_7029", merged_data$varName)
+merged_data$varName = ifelse(merged_data$varName %in% err_pooja, "Pooja", merged_data$varName)
+merged_data$varName = ifelse(merged_data$varName %in% err_sonam, "Sonam", merged_data$varName)
+
+dominant_variety = var_name %>% filter(Freq>30) 
+merged_data$varName = ifelse(merged_data$varName %in% dominant_variety$Var1, merged_data$varName, "Other")
+
+pie(dominant_variety$Freq, labels = dominant_variety$Var1, cex = 0.5)
+
+ggplot(dominant_variety, aes(x="", y=Freq, fill=Var1)) +
+  geom_bar(stat="identity", width=1, color = "white") +
+  coord_polar("y", start=0)+theme_bw()
+#(https://r-graph-gallery.com/piechart-ggplot2.html)
+
+ggplot(dominant_variety, aes(x=Var1, y=Freq, fill=Var1)) +
+  geom_bar(stat = "identity",width=1, color = "white")+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+theme(legend.position="top")
+
+ggplot(dominant_variety, aes(x=Var1, y=Freq)) +
+  geom_bar(stat = "identity",width=1, color = "white", aes(fill = as.factor(Var1)))+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+theme(legend.position="top")#+scale_fill_brewer(palette = "Greens",direction = -1)
+
+##How yield varies accoridng to variety 
+boxplot(merged_data$`L-tonPerHectare`~merged_data$varName)
+```
+
+#All fertilizer
+
+```{r}
+library("dplyr")
+str(merged_data$basalDAP)
+summary(merged_data$basalDAP)
+
+merged_data <- merged_data %>%
+  mutate(basalDAP = coalesce(basalDAP, 0),
+         basalBoron = coalesce(basalBoron, 0),
+         basalUrea = coalesce(basalUrea, 0),
+         basalNPK = coalesce(basalNPK, 0),
+         basalNPKS = coalesce(basalNPKS, 0),
+         basalMoP = coalesce(basalMoP, 0),
+         basalTSP = coalesce(basalTSP, 0),
+         basalSSP = coalesce(basalSSP, 0), 
+         basalZnSO4 = coalesce(basalZnSO4, 0), 
+         `1tdDAP`= coalesce(`1tdDAP`, 0), 
+         `1tdNPK`= coalesce(`1tdNPK`, 0), 
+         `1tdNPKS`= coalesce(`1tdNPKS`, 0), 
+         `1tdUrea`= coalesce(`1tdUrea`,0),
+         `1tdMoP` = coalesce(`1tdMoP`,0), 
+         `1tdSSP` = coalesce(`1tdSSP`, 0),
+         `1tdTSP` = coalesce(`1tdTSP`,0),
+         `1tdZnSO4` = coalesce(`1tdZnSO4`,0), 
+         `1tdBoron` = coalesce(`1tdBoron`,0),
+         `2tdDAP`= coalesce(`2tdDAP`, 0), 
+         `2tdNPK`= coalesce(`2tdNPK`, 0), 
+         `2tdNPKS`= coalesce(`2tdNPKS`, 0), 
+         `2tdUrea`= coalesce(`2tdUrea`,0),
+         `2tdMoP` = coalesce(`2tdMoP`,0), 
+         `2tdSSP` = coalesce(`2tdSSP`, 0),
+         `2tdTSP` = coalesce(`2tdTSP`,0),
+         `2tdZnSO4` = coalesce(`2tdZnSO4`,0), 
+         `3tdDAP`= coalesce(`3tdDAP`, 0), 
+         `3tdNPK`= coalesce(`3tdNPK`, 0), 
+         `3tdNPKS`= coalesce(`3tdNPKS`, 0), 
+         `3tdUrea`= coalesce(`3tdUrea`,0),
+         `3tdMoP` = coalesce(`3tdMoP`,0), 
+         `3tdSSP` = coalesce(`3tdSSP`, 0),
+         `3tdZnSO4` = coalesce(`3tdZnSO4`,0), 
+         `3tdBoron` = coalesce(`3tdBoron`,0))
+
+```
+
+#NPK grades
+
+```{r}
+table(merged_data$gradeNPK)
+
+err_28_28_0 = c("Other28-28", "Other28-28-0","Other28.28","Other28.28.0","Other28:28:0","Other27-28-0")
+
+merged_data$gradeNPK = ifelse(merged_data$gradeNPK %in% err_28_28_0, "28_28_0", merged_data$gradeNPK)
+
+err_20_20_13 = c("Other20-20--13","Other20-20-13","Other20 - 20 -013")
+
+merged_data$gradeNPK = ifelse(merged_data$gradeNPK %in% err_20_20_13, "20_20_13", merged_data$gradeNPK)
+
+merged_data$gradeNPK = ifelse(merged_data$gradeNPK == "Other18.46" | merged_data$gradeNPK == "Other18 18 46", "18_18_46", merged_data$gradeNPK)
+
+merged_data$gradeNPK = ifelse(merged_data$gradeNPK == "Other14_35_14", "14_35_14", merged_data$gradeNPK)
+
+merged_data$gradeNPK = ifelse(merged_data$gradeNPK == "10_26_26" | merged_data$gradeNPK == "12_32_16" | merged_data$gradeNPK == "14_35_14" | merged_data$gradeNPK == "17_17_17"| merged_data$gradeNPK == "18_18_46" | merged_data$gradeNPK == "20_20_13" | merged_data$gradeNPK == "28_28_0", merged_data$gradeNPK, 0)
+```
+
+#Separate to NPK grades
+
+```{r}
+cols = c("N_grade", "P_grade", "K_grade")
+merged_data <- merged_data %>% separate(gradeNPK, sep = "_", into = cols, remove = FALSE)
+merged_data$N_grade = as.numeric(merged_data$N_grade)
+merged_data$P_grade = as.numeric(merged_data$P_grade)
+merged_data$K_grade = as.numeric(merged_data$K_grade)
+summary(is.na(merged_data$N_grade))
+```
+
+#Change all these NA to 0 for further arithmatic
+
+```{r}
+merged_data$N_grade = coalesce(merged_data$N_grade, 0)
+merged_data = merged_data %>% mutate(N_grade = coalesce(N_grade,0), 
+                                     P_grade = coalesce(P_grade,0),
+                                     K_grade = coalesce(K_grade,0))
+
+```
+
+#Calculate N,P,K, rates
+
+```{r}
+merged_data$total_N = merged_data$basalDAP*0.18 + merged_data$basalNPK*(merged_data$N_grade/100) + merged_data$basalUrea*0.46 + merged_data$`1tdUrea`*0.46 + merged_data$`2tdUrea`*0.46 + merged_data$`3tdUrea`*0.46 + merged_data$`1tdDAP`*0.18 + merged_data$`1tdNPK`*(merged_data$N_grade/100) + merged_data$`2tdDAP`*0.18 + merged_data$`2tdNPK`*(merged_data$N_grade/100) + merged_data$`3tdDAP`*0.18 + merged_data$`3tdNPK`*(merged_data$N_grade/100) 
+
+merged_data$total_p = merged_data$basalDAP*0.46 + merged_data$basalNPK*(merged_data$P_grade/100) +  merged_data$`1tdDAP` *0.46 + merged_data$`2tdDAP`* 0.46 + merged_data$`3tdDAP` *0.46 + merged_data$`1tdNPK`*(merged_data$P_grade/100) + merged_data$`2tdNPK`*(merged_data$P_grade/100) +  merged_data$basalSSP* 0.145 + merged_data$basalTSP * 0.45 + merged_data$`1tdSSP`*0.145 + merged_data$`2tdSSP`*0.145 + merged_data$`3tdSSP`*0.145 + merged_data$`1tdTSP`*0.45 + merged_data$`2tdTSP`*0.45 
+
+merged_data$total_K = (merged_data$basalMoP+ merged_data$`1tdMoP`+ merged_data$`2tdMoP`+ merged_data$`3tdMoP`)*0.60 + (merged_data$basalNPK  + merged_data$`1tdNPK`+ merged_data$`2tdNPK`+ merged_data$`3tdNPK`)*(merged_data$K_grade/100)
+
+merged_data$total_zn = (merged_data$basalZnSO4+ merged_data$`1tdZnSO4`+ merged_data$`2tdZnSO4`+merged_data$`3tdZnSO4`)*0.20
+
+merged_data$total_B  = (merged_data$basalBoron + merged_data$`1tdBoron`+ merged_data$`3tdBoron`)*0.10
+
+merged_data$total_N_ha = merged_data$total_N /merged_data$cropLarestAreaAcre*2.5
+#merged_data$total_N_ha = ifelse(merged_data$total_N_ha > 550, NA, merged_data$total_N_ha)
+merged_data$total_p_ha = merged_data$total_p / merged_data$cropLarestAreaAcre*2.5
+merged_data$total_K_ha = merged_data$total_K / merged_data$cropLarestAreaAcre*2.5
+merged_data$total_Zn_ha = merged_data$total_zn / merged_data$cropLarestAreaAcre *2.5 
+merged_data$total_B_ha = merged_data$total_B / merged_data$cropLarestAreaAcre *2.5
+merged_data$seed_ha    = merged_data$cropSeedAmt / merged_data$cropLarestAreaAcre *2.5
+
+#Corecting the N rates per ha. 
+boxplot(merged_data$total_N_ha)
+k = boxplot(merged_data$total_N_ha)
+
+merged_data$total_N_ha = ifelse(merged_data$total_N_ha >300, 200, merged_data$total_N_ha)
+```
+
+#More automatic way..
+
+```{r}
+summary(merged_data$total_N_ha)
+hist(merged_data$total_N_ha)
+N_err = boxplot(merged_data$total_N_ha)
+
+merged_data$total_N_ha  = ifelse(merged_data$total_N_ha>N_err$stats[5,1],N_err$stats[5,1],merged_data$basalDAP) 
+```
+
+#Summary of N rate by variety types (Aggregate use, multiple category, multiple default function)
+
+```{r}
+mean_N = aggregate(merged_data[,c("total_N_ha")], list(merged_data$varName), mean, na.rm = TRUE) 
+min_N = aggregate(merged_data[,c("total_N_ha")], list(merged_data$varName), min, na.rm = TRUE) 
+max_N = aggregate(merged_data[,c("total_N_ha")], list(merged_data$varName), max, na.rm = TRUE) 
+
+N_use = cbind(mean_N, min_N, max_N)
+N_use = N_use[,c(1,2,4,6)]
+names(N_use) = c("Var","Mean_N","Min_N", "Max_N")
+
+aggregate(total_N_ha ~ droughtSeverity+varName, data = merged_data, FUN = function(x)c(mean = mean(x), min = min(x),max = max(x)))
+
+
+aggregate(total_N_ha ~ droughtSeverity+varName, data = merged_data, FUN = function(x)c(mean = mean(x), min = min(x),max = max(x)))   
+```
+
+#dealing with Dates (Pattern matching, replacements, Date format, Julian days converison)
+
+```{r}
+library(lubridate)
+merged_data$harvestDate1 = merged_data$harvestDate
+
+merged_data$harvestDate1 = gsub( "/", "-", merged_data$harvestDate1, ignore.case = T)
+merged_data$harvestDate1 = gsub("-12-2018", "-12-2017",merged_data$harvestDate1, ignore.case = T)
+table(merged_data$harvestDate1)
+str(merged_data$harvestDate1)
+merged_data$harvestDate1 = as.Date(merged_data$harvestDate1, format = "%d-%m-%Y")
+
+#Convert to Julian Days 
+merged_data$hd_jul = as.POSIXlt(merged_data$harvestDate1)$yday
+hist(merged_data$hd_jul)
+merged_data$hd_jul = ifelse(merged_data$hd_jul < 35, merged_data$hd_jul + 365, merged_data$hd_jul)
+
+
+merged_data$seedingSowingTransDate1 = merged_data$seedingSowingTransDate
+
+table(merged_data$seedingSowingTransDate1)
+merged_data$seedingSowingTransDate1 = gsub( "/", "-", merged_data$seedingSowingTransDate1, ignore.case = T)
+str(merged_data$seedingSowingTransDate1)
+merged_data$seedingSowingTransDate1 = as.Date(merged_data$seedingSowingTransDate1, format = "%d-%m-%Y")
+
+merged_data$sow_jul1 = as.POSIXlt(merged_data$seedingSowingTransDate1)$yday
+
+merged_data$sow_jul  = yday(as.Date(merged_data$seedingSowingTransDate1,"%d-%m-%Y"))
+
+hist(merged_data$sow_jul)
+merged_data$dur = merged_data$hd_jul - merged_data$sow_jul
+
+boxplot(merged_data$dur)
+
+merged_data$dur = ifelse(merged_data$dur < 50, mean(merged_data$dur,na.rm = T), merged_data$dur)
+
+which(merged_data$dur < 80)
+```
+
+#Subset based on some condition for particular variable
+
+```{r}
+table(merged_data$varType)
+# Subset for non basmati and Unknown
+merged_data1 = merged_data %>% dplyr::filter( varType %in% c("Hybrid","Improved","Local"))
+
+merged_data2 = subset(merged_data, varType == "Hybrid" | varType == "Improved" | varType == "Local")
+```
+
+#Subset some of the variables
+
+```{r}
+merged_data3 = subset(merged_data, select=c("varType","total_N_ha"))
+merged_data3 = subset(merged_data, select = collectionDate:state)
+
+merged_data3 = merged_data[,grep("Urea",colnames(merged_data))]
+merged_data3 = merged_data[,grep("Urea|DAP",colnames(merged_data))]
+
+vect = c("Urea","DAP","NPK")
+merged_data3 = merged_data[,grep(paste0(vect, collapse = "|", sep = ""), colnames(merged_data))]
+```
+
+#Changing some features.
+
+```{r}
+table(merged_data$drainClass)
+merged_data$drainClass <- ifelse(merged_data$drainClass == "VeryLowLand", "LowLand", merged_data$drainClass)
+
+
+table(merged_data$cropResiduePcnt)
+str(merged_data$cropResiduePcnt)
+merged_data$cropResiduePcnt <- as.numeric(merged_data$cropResiduePcnt)
+merged_data$residu_retain <- ifelse(merged_data$cropResiduePcnt == 0, "No", "Yes")
+
+
+table(data$prevCrop)
+data$prevCrop    <- ifelse(data$prevCrop == "Wheat" | data$prevCrop == "Fallow", data$prevCrop, "Other")
+```

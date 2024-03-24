@@ -1,7 +1,7 @@
 project:
   type: book
   output-dir: docs
-
+ 
 book:
   title: "Data Management"
   author: "Anton Urfels"
@@ -17,6 +17,10 @@ book:
   - part: "Data management workflow"
     chapters:
     - book-code/folder-structure.qmd
+  - part: "Course: R for sustainable agriculture"
+    chapters:
+    - book-code/intro_r_course.qmd
+    - training-materials/presentation/intro.qmd
   - book-code/references.qmd
 
 bibliography: book-code/references.bib
@@ -26,6 +30,8 @@ format:
     theme: cosmo
   pdf:
     documentclass: scrreprt
+  revealjs: default
+
 
 editor: visual
 

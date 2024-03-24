@@ -1,5 +1,5 @@
 ---
-title: "R for sustainable agriculute"
+title: "Day 1 - R for sustainable agriculture"
 subtitle: "Reproducible research and digital landscapes"
 author: "Anton Urfels"
 date: March 25, 2024
@@ -59,7 +59,7 @@ include-in-header:
 
 ## Housekeeping
 
-::: {.r-fit-text}
+::: r-fit-text
 1.  In the mornings we will have presentations + working with our examples.
 2.  In the afternoons, everyone will work on their own code.
 3.  Our focus will be on supporting in-person participants.
@@ -246,3 +246,5 @@ fit
 ## Questions?
 
 Off to the real fun! And using your own examples.
+
+You can download all of the course materials incl. this deck from this github repo: <https://github.com/AntonUrfels/data-works>. You can also look at them at the link of the corresponding website <https://antonurfels.github.io/data-works/>.
