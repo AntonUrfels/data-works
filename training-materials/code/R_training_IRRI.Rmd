@@ -56,6 +56,57 @@ head(merged_data)
 
 # Lets have simple variable names
 
+Here, we want to make sure our life is easy - and that future users can more readily work with the data. Also, variable names are crucial for automation. If you always use the same variable names - then you can recycle your scripts for analysis. You will see that later.
+
+So we strive for simple, meaningful and short names. Most importantly - be consistent. I like to use underscores for variable_names (called 'snake case'). Some people like capitals for variableNames (called 'camel case'). Try to be clean and simple.
+
+Here are some good examples:
+
+-   yield; n_rate; production_plot; production_farm; irrigation_number
+
+Here are some bad examples:
+
+-   12013_YTH; YTHLP; NP2024;
+
+Sometimes surveys collect a lot of data as researchers might want to explore very specific topics. At the same time - we collect more and more data and want to ensure that the common and most important variables are always collected and managed the same way. Then we can easily merged them in the future and use in united analysis. So when starting, try to stay focused and priortize the most important ones first.The most important variables for agronomic surveys are normally:
+
+General ones:
+
+-   Location: Administrative units at level 0(country), 2(province/state),3(district),4(village,municipality)
+
+-   GPS Coordinates ideally of each plot; sometimes it is of household: latitude, longitude
+
+-   Landholding info: plot number, area of total farm, area of largest plot
+
+-   Household info: number of people; sex of household head; age of household head; education;
+
+-   Cultivation options: crop; season; previous crop;
+
+Then for the production practices, you can think chronologically from planting to harvest and key aspect like fertilizer, irrigation, weeds, pests, disease,:
+
+-   Planting: planting date; seed rate; variety; crop establishment method (e.g. DSR, TPR); seedling age; etc.
+
+-    Fertilizer: use of farm yard manure; fertilizer type; basal application amount; top dressing amounts;
+
+-   Irrigation: number of irrigations; number of drainages; irrigation source; pump use; energy source;
+
+-   Weed/Pest/Disease: most common weeds; number of weeding times; number of spraying;
+
+-   Harvest: harvest date; harvest method; production amount plot; production amount whole farm; price received; percentage sold to market;
+
+Importantly! Do not calculate variables at this step. Just focus on making the existing variables manageable.
+
+At the next step we will then calculate key variables. Commonly calculated variables include:
+
+-   Yield (t per ha); N rate (kg per ha); revenue (USD per ha); duration (days);
+
+For each calculated variable it is best to have it's own section. Sometimes it happens that we make a mistake in the calculations - it is then easy to adjust this.
+
+Tasks: Take a look at these scripts. What do they do?
+
+1.  Can you make your life easier by further improving the variable names?
+2.  Focus on just a few that you are interested in.
+
 ```{r}
 #Rename a single column 
 names(merged_data)[names(merged_data) == "C-q305_cropLargestArea"] <- 'cropLargestArea'
@@ -77,7 +128,11 @@ merged_data[,which(duplicated(names(merged_data)))] = NULL
 which(duplicated(names(merged_data)))
 ```
 
-#Structure of data, coverting to other type
+# Structure of data, coverting to other type
+
+When we read data, R tries to detect the type. But sometimes this does not work perfectly. Normally this is the case when there are mixed data types. Or when NA (not available) values are not coded consistently. Or when there's just a type.
+
+Ideally, we should constrain our data types during data collection - so that numeric can only enter numbers. Text can only choose from drop down. But mistakes, happen. And we need to adjust these here.
 
 ```{r}
 str(merged_data)
@@ -88,7 +143,11 @@ merged_data$basalUrea   <- as.numeric(merged_data$basalUrea)
 merged_data[,c("varName","droughtSeverity")] = sapply(merged_data[,c("varName","droughtSeverity")], as.factor)
 ```
 
-#Variety name
+# Variety name
+
+Now that we have a rather clean dataset, let's explore some of the variables. Let's start with varieties. With varieties, we often find many names that apply for the same variety. Also, often data collectors enter varieties with typos. So it's important to spend some time here and use our knowledge to adjust these. Please do not edit the data directly in excel. But you can use R scripts to replace or correct misspellings. This ensures full integrity so that anyone can later see what you did with the dataset and perhaps identify ways to improve it.
+
+We can start by getting an overview of all the variety names using the table functions. We need to then work through these one by one to ensure they are all correct and we don't have misspellings.
 
 ```{r}
 table(merged_data$varName)
@@ -122,7 +181,9 @@ ggplot(dominant_variety, aes(x=Var1, y=Freq)) +
 boxplot(merged_data$`L-tonPerHectare`~merged_data$varName)
 ```
 
-#All fertilizer
+# All fertilizer - calculate fert_rates
+
+Now let's calculate fertilizer rates. For this, we need to calculate the full amount of each fertilizer applied. E.g. total_dap, total_npk. We then need to use the NPK ratings, to calculate the total N, P, and K applies by e.g. calculating n_total (total_npk \* n_rating_npk) + (total_urea \* n_rating_urea). We then calculate n rate by adjusting for plot size and the land unit size, if local land unit (llu) were used: n_rate = n_total / (plot_size \* llu_ha).
 
 ```{r}
 library("dplyr")
@@ -167,7 +228,7 @@ merged_data <- merged_data %>%
 
 ```
 
-#NPK grades
+# NPK grades
 
 ```{r}
 table(merged_data$gradeNPK)
@@ -187,7 +248,7 @@ merged_data$gradeNPK <- ifelse(merged_data$gradeNPK == "Other14_35_14", "14_35_1
 merged_data$gradeNPK = ifelse(merged_data$gradeNPK == "10_26_26" | merged_data$gradeNPK == "12_32_16" | merged_data$gradeNPK == "14_35_14" | merged_data$gradeNPK == "17_17_17"| merged_data$gradeNPK == "18_18_46" | merged_data$gradeNPK == "20_20_13" | merged_data$gradeNPK == "28_28_0", merged_data$gradeNPK, 0)
 ```
 
-#Separate to NPK grades
+# Separate to NPK grades
 
 ```{r}
 cols = c("N_grade", "P_grade", "K_grade")
@@ -198,7 +259,7 @@ merged_data$K_grade = as.numeric(merged_data$K_grade)
 summary(is.na(merged_data$N_grade))
 ```
 
-#Change all these NA to 0 for further arithmatic
+# Change all these NA to 0 for further arithmetic
 
 ```{r}
 merged_data$N_grade = coalesce(merged_data$N_grade, 0)
@@ -208,7 +269,13 @@ merged_data <- merged_data %>% mutate(N_grade = coalesce(N_grade,0),
 
 ```
 
-#Calculate N,P,K, rates
+# Calculate N,P,K, rates
+
+This can now get messy - you welcome to make it easier to read. See the second calculation as an example. Always strive for simple code that easy to read :).
+
+A good way to make this easier is by making short calculations across multiple lines.
+
+Also, look out for some style improvements that you can make - e.g. can you identify some assignment operations where we used the equal sign, which works - but is not best practice.
 
 ```{r}
 merged_data$total_N <- merged_data$basalDAP * 0.18 + merged_data$basalNPK *
@@ -218,13 +285,23 @@ merged_data$total_N <- merged_data$basalDAP * 0.18 + merged_data$basalNPK *
   0.18 + merged_data$`2tdNPK` * (merged_data$N_grade / 100) + merged_data$`3tdDAP` *
   0.18 + merged_data$`3tdNPK` * (merged_data$N_grade / 100)
 
+# try to keep short lines and seperate the code logically. 
+# td stands for top dressing number 1,2,3.
 merged_data$total_p <-
-  merged_data$basalDAP * 0.46 + merged_data$basalNPK * (merged_data$P_grade /
-                                                          100) +  merged_data$`1tdDAP` * 0.46 + merged_data$`2tdDAP` * 0.46 + merged_data$`3tdDAP` *
-  0.46 + merged_data$`1tdNPK` * (merged_data$P_grade / 100) + merged_data$`2tdNPK` *
-  (merged_data$P_grade / 100) +  merged_data$basalSSP * 0.145 + merged_data$basalTSP * 0.45 + merged_data$`1tdSSP` *
-  0.145 + merged_data$`2tdSSP` * 0.145 + merged_data$`3tdSSP` * 0.145 + merged_data$`1tdTSP` *
-  0.45 + merged_data$`2tdTSP` * 0.45
+  merged_data$basalDAP * 0.46 +
+  merged_data$basalNPK * (merged_data$P_grade /100) +
+  merged_data$`1tdDAP` * 0.46 +
+  merged_data$`2tdDAP` * 0.46 +
+  merged_data$`3tdDAP` * 0.46 +
+  merged_data$`1tdNPK` * (merged_data$P_grade / 100) +
+  merged_data$`2tdNPK` *  (merged_data$P_grade / 100) +
+  merged_data$basalSSP * 0.145 +
+  merged_data$basalTSP * 0.45 +
+  merged_data$`1tdSSP` * 0.145 +
+  merged_data$`2tdSSP` * 0.145 +
+  merged_data$`3tdSSP` * 0.145 +
+  merged_data$`1tdTSP` * 0.45 +
+  merged_data$`2tdTSP` * 0.45
 
 merged_data$total_K = (
   merged_data$basalMoP + merged_data$`1tdMoP` + merged_data$`2tdMoP` + merged_data$`3tdMoP`
@@ -261,7 +338,9 @@ k = boxplot(merged_data$total_N_ha)
 merged_data$total_N_ha = ifelse(merged_data$total_N_ha > 300, 200, merged_data$total_N_ha)
 ```
 
-#More automatic way..
+# More automatic way..
+
+Explain a bit more.
 
 ```{r}
 summary(merged_data$total_N_ha)
@@ -271,16 +350,16 @@ N_err = boxplot(merged_data$total_N_ha)
 merged_data$total_N_ha  = ifelse(merged_data$total_N_ha>N_err$stats[5,1],N_err$stats[5,1],merged_data$basalDAP) 
 ```
 
-#Summary of N rate by variety types (Aggregate use, multiple category, multiple default function)
+# Summary of N rate by variety types (Aggregate use, multiple category, multiple default function)
 
 ```{r}
-mean_N = aggregate(merged_data[,c("total_N_ha")], list(merged_data$varName), mean, na.rm = TRUE) 
-min_N = aggregate(merged_data[,c("total_N_ha")], list(merged_data$varName), min, na.rm = TRUE) 
-max_N = aggregate(merged_data[,c("total_N_ha")], list(merged_data$varName), max, na.rm = TRUE) 
+mean_N <- aggregate(merged_data[,c("total_N_ha")], list(merged_data$varName), mean, na.rm = TRUE) 
+min_N <- aggregate(merged_data[,c("total_N_ha")], list(merged_data$varName), min, na.rm = TRUE) 
+max_N <- aggregate(merged_data[,c("total_N_ha")], list(merged_data$varName), max, na.rm = TRUE) 
 
-N_use = cbind(mean_N, min_N, max_N)
-N_use = N_use[,c(1,2,4,6)]
-names(N_use) = c("Var","Mean_N","Min_N", "Max_N")
+N_use <- cbind(mean_N, min_N, max_N)
+N_use <- N_use[,c(1,2,4,6)]
+names(N_use) <- c("Var","Mean_N","Min_N", "Max_N")
 
 aggregate(total_N_ha ~ droughtSeverity+varName, data = merged_data, FUN = function(x)c(mean = mean(x), min = min(x),max = max(x)))
 
@@ -288,7 +367,19 @@ aggregate(total_N_ha ~ droughtSeverity+varName, data = merged_data, FUN = functi
 aggregate(total_N_ha ~ droughtSeverity+varName, data = merged_data, FUN = function(x)c(mean = mean(x), min = min(x),max = max(x)))   
 ```
 
-#dealing with Dates (Pattern matching, replacements, Date format, Julian days converison)
+# Dealing with Dates (Pattern matching, replacements, Date format, Julian days converison)
+
+R can handle data with it's own class. For this we use the as.Date() function. There is a global standard for defining dates [strptime](https://linux.die.net/man/3/strptime) -\> String (i.e. letters, words, not numbers) representation of time. What is in R a character vector, is often called a string in other programming languages.
+
+So when you convert a character vector to a Date - then you can use this format it represent typical data components with % and letters. E.g. **%Y** is The Year including century. So a date with "1998-05-30" would be "%Y-%m-%d". If we use e.g. month name like "1998-May-30" then it would be "%Y-%b-%d".
+
+The date format holds dates as number of days since a defined starting date. Often that is "1980-01-01".
+
+A lot of times - we want to just calculate number of days - and thus use day of year for dates. However, if e.g. a season stretched across two calendar years then it can cause issues. So be careful on how you use and define dates.
+
+The lubridate package holds many convenience functions for working with dates. For example the yday() function calculates the day of year for us.
+
+For cleaning - we basically want to bring the columns into the ISO standard "yyyy-mm-dd". In this format - it can easily be read and covnerted as this is the accepted standard. If our data does not have that format, we can convert it to this format using R through the above mentioned methods.
 
 ```{r}
 library(lubridate)
@@ -301,28 +392,28 @@ str(merged_data$harvestDate1)
 merged_data$harvestDate1 = as.Date(merged_data$harvestDate1, format = "%d-%m-%Y")
 
 #Convert to Julian Days 
-merged_data$hd_jul = as.POSIXlt(merged_data$harvestDate1)$yday
+merged_data$hd_jul <- as.POSIXlt(merged_data$harvestDate1)$yday
 hist(merged_data$hd_jul)
-merged_data$hd_jul = ifelse(merged_data$hd_jul < 35, merged_data$hd_jul + 365, merged_data$hd_jul)
+merged_data$hd_jul <- ifelse(merged_data$hd_jul < 35, merged_data$hd_jul + 365, merged_data$hd_jul)
 
 
-merged_data$seedingSowingTransDate1 = merged_data$seedingSowingTransDate
+merged_data$seedingSowingTransDate1 <- merged_data$seedingSowingTransDate
 
 table(merged_data$seedingSowingTransDate1)
-merged_data$seedingSowingTransDate1 = gsub( "/", "-", merged_data$seedingSowingTransDate1, ignore.case = T)
+merged_data$seedingSowingTransDate1 <- gsub( "/", "-", merged_data$seedingSowingTransDate1, ignore.case = T)
 str(merged_data$seedingSowingTransDate1)
-merged_data$seedingSowingTransDate1 = as.Date(merged_data$seedingSowingTransDate1, format = "%d-%m-%Y")
+merged_data$seedingSowingTransDate1 <- as.Date(merged_data$seedingSowingTransDate1, format = "%d-%m-%Y")
 
-merged_data$sow_jul1 = as.POSIXlt(merged_data$seedingSowingTransDate1)$yday
+merged_data$sow_jul1 <- as.POSIXlt(merged_data$seedingSowingTransDate1)$yday
 
-merged_data$sow_jul  = yday(as.Date(merged_data$seedingSowingTransDate1,"%d-%m-%Y"))
+merged_data$sow_jul  <- yday(as.Date(merged_data$seedingSowingTransDate1,"%d-%m-%Y"))
 
 hist(merged_data$sow_jul)
-merged_data$dur = merged_data$hd_jul - merged_data$sow_jul
+merged_data$dur <- merged_data$hd_jul - merged_data$sow_jul
 
 boxplot(merged_data$dur)
 
-merged_data$dur = ifelse(merged_data$dur < 50, mean(merged_data$dur,na.rm = T), merged_data$dur)
+merged_data$dur <- ifelse(merged_data$dur < 50, mean(merged_data$dur,na.rm = T), merged_data$dur)
 
 which(merged_data$dur < 80)
 ```
@@ -337,7 +428,7 @@ merged_data1 = merged_data %>% dplyr::filter( varType %in% c("Hybrid","Improved"
 merged_data2 = subset(merged_data, varType == "Hybrid" | varType == "Improved" | varType == "Local")
 ```
 
-#Subset some of the variables
+# Subset some of the variables
 
 ```{r}
 merged_data3 = subset(merged_data, select=c("varType","total_N_ha"))
@@ -350,11 +441,18 @@ vect = c("Urea","DAP","NPK")
 merged_data3 = merged_data[,grep(paste0(vect, collapse = "|", sep = ""), colnames(merged_data))]
 ```
 
-#Changing some features.
+# Changing some features
+
+Sometimes, we have many categories and do not want to use them all in our analysis. For example, we find that there are only vary few cases of a specific class - in that case we can change that value. There are many ways to do it. Ifelse, is a common way to evaluate and replace. You can also use subsetting.
 
 ```{r}
 table(merged_data$drainClass)
 merged_data$drainClass <- ifelse(merged_data$drainClass == "VeryLowLand", "LowLand", merged_data$drainClass)
+#below we use subsetting, by first selecting the drainClass variable, 
+#then identifying the indexes where drainage class is VeryLowLand and
+#assigning the value LowLand to all the selected values
+
+merged_data$drainClass[merged_data$drainClass == "VeryLowLand"] <- "LowLand"
 
 
 table(merged_data$cropResiduePcnt)
